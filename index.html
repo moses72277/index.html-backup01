@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finora</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f4f7f5;color:#222}header{background:#087f3f;color:#fff;text-align:center;padding:16px;font-size:22px;font-weight:bold}.s{display:none;max-width:600px;margin:auto;padding:18px}.s.a{display:block}.c{background:#fff;padding:18px;margin:10px 0;border-radius:12px;box-shadow:0 2px 7px #0001}input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px}button{width:100%;padding:12px;margin:6px 0;border:0;border-radius:8px;background:#087f3f;color:white;font-weight:bold}.b{background:#e8f2ec;color:#087f3f}.d{background:#c62828}.g{display:grid;grid-template-columns:1fr 1fr;gap:8px}.item{padding:10px;border-bottom:1px solid #eee}.stat{background:#087f3f;color:white;padding:12px;border-radius:10px}.lock{padding:12px;background:#fff1c7;border-radius:8px}
+</style>
+</head>
+<body>
+<header>Finora</header>
+
+<section id="login" class="s a"><div class="c">
+<h2>Welcome to Finora</h2><input id="em" placeholder="Email"><input id="pw" type="password" placeholder="Password">
+<button onclick="login()">Login</button><button class="b" onclick="go('create')">Create Account</button><button class="b" onclick="go('forgot')">Forgot Password?</button>
+</div></section>
+
+<section id="create" class="s"><div class="c"><h2>Create Account</h2>
+<input id="bn" placeholder="Business name"><input id="on" placeholder="Owner name"><input id="ph" placeholder="Phone"><input id="ce" placeholder="Email"><input id="cp" type="password" placeholder="Password">
+<button id="cb" onclick="create()">Create Account</button><button class="b" onclick="go('login')">Back</button></div></section>
+
+<section id="forgot" class="s"><div class="c"><h2>Reset Password</h2><input id="re" placeholder="Email"><button onclick="reset()">Send Reset Link</button><button class="b" onclick="go('login')">Back</button></div></section>
+
+<section id="dash" class="s"><div class="c"><h2 id="wel"></h2><p id="pl"></p><p id="trial"></p></div>
+<div class="g"><button onclick="go('products')">📦 Products</button><button onclick="go('customers')">👥 Customers</button><button onclick="go('sales')">💰 Sales</button><button onclick="go('history')">📜 History</button><button onclick="go('expenses')">💸 Expenses</button><button onclick="go('reports')">📊 Reports</button><button onclick="go('analytics')">📈 Analytics</button><button onclick="go('settings')">⚙️ Settings</button></div><button class="d" onclick="logout()">Logout</button></section>
+
+<section id="products" class="s"><div class="c"><h2>Products</h2><input id="pn" placeholder="Product name"><input id="pp" type="number" placeholder="Price"><input id="pq" type="number" placeholder="Quantity"><button onclick="addP()">Add Product</button><div id="plist"></div></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="customers" class="s"><div class="c"><h2>Customers</h2><input id="cn" placeholder="Customer name"><input id="cpn" placeholder="Phone"><button onclick="addC()">Add Customer</button><div id="clist"></div></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="sales" class="s"><div class="c"><h2>Record Sale</h2><select id="sp"></select><input id="sq" type="number" placeholder="Quantity"><input id="sc" placeholder="Customer (optional)"><button onclick="addS()">Record Sale</button></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="history" class="s"><div class="c"><h2>Sales History</h2><div id="hlist"></div></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="expenses" class="s"><div class="c"><h2>Expenses</h2><input id="en" placeholder="Description"><input id="ea" type="number" placeholder="Amount"><button onclick="addE()">Add Expense</button><div id="elist"></div></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="reports" class="s"><div class="c"><h2>Reports</h2><div class="g"><div class="stat">Revenue<br><b id="rv">₦0</b></div><div class="stat">Sales<br><b id="scount">0</b></div><div class="stat">Expenses<br><b id="ex">₦0</b></div><div class="stat">Profit<br><b id="pr">₦0</b></div></div><p id="lock"></p></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="analytics" class="s"><div class="c"><h2>Analytics</h2><div id="an"></div></div><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="settings" class="s"><div class="c"><h2>Settings</h2><button onclick="go('plans')">💳 Subscription</button><button onclick="go('feedback')">💬 Feedback</button><button onclick="alert('Notifications coming soon')">🔔 Notifications</button><button onclick="alert('Firebase authentication protects your account')">🔐 Security</button><button onclick="backup()">💾 Backup</button></div><button class="d" onclick="logout()">Logout</button><button class="b" onclick="go('dash')">Back</button></section>
+
+<section id="plans" class="s"><div class="c"><h2>Plans</h2><h3>3-Day Free Trial</h3><p>20 products • 20 customers • 50 sales</p><button onclick="trialStart()">Start Trial</button><h3>₦3,000 Ordinary</h3><p>50 products • 100 customers • 300 sales/month</p><button onclick="plan('o')">Subscribe ₦3,000</button><h3>₦5,000 Premium</h3><p>200 products • 500 customers • Unlimited sales</p><button onclick="plan('p')">Subscribe ₦5,000</button><h3>₦10,000 Standard</h3><p>1,000 products • 2,000 customers • Unlimited sales</p><button onclick="plan('s')">Subscribe ₦10,000</button></div><button class="b" onclick="go('settings')">Back</button></section>
+
+<section id="feedback" class="s"><div class="c"><h2>Feedback</h2><textarea id="fb" placeholder="Your feedback"></textarea><button onclick="sendFB()">Send Feedback</button><button onclick="fbType('Feature Request: ')">Request a Feature</button><button onclick="fbType('Problem Report: ')">Report a Problem</button></div><button class="b" onclick="go('settings')">Back</button></section>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const app=initializeApp({apiKey:"AIzaSyBVbRIOthbZxre5BL4r-hb5BoRP_DRGOZE",authDomain:"finora-1829e.firebaseapp.com",projectId:"finora-1829e",storageBucket:"finora-1829e.firebasestorage.app",messagingSenderId:"432140493962",appId:"1:432140493962:web:3fc37f588d478fecbeb973",measurementId:"G-XXVD4WVCWS"});
+const auth=getAuth(app);let uid="",p=[],c=[],s=[],e=[],f=[],profile={};
+const lim={Trial:[20,20,50,7],Ordinary:[50,100,300,30],Premium:[200,500,Infinity,365],Standard:[1000,2000,Infinity,Infinity]};
+const k=x=>"finora_"+uid+"_"+x,L=()=>lim[profile.plan||"Trial"];
+
+function load(u){uid=u.uid;profile=JSON.parse(localStorage.getItem(k("profile"))||"{}");p=JSON.parse(localStorage.getItem(k("products"))||"[]");c=JSON.parse(localStorage.getItem(k("customers"))||"[]");s=JSON.parse(localStorage.getItem(k("sales"))||"[]");e=JSON.parse(localStorage.getItem(k("expenses"))||"[]");f=JSON.parse(localStorage.getItem(k("feedback"))||"[]");dash()}
+function save(n,x){localStorage.setItem(k(n),JSON.stringify(x))}
+window.go=id=>{document.querySelectorAll(".s").forEach(x=>x.classList.remove("a"));document.getElementById(id).classList.add("a");if(id=="dash")dash();if(id=="products")products();if(id=="customers")customers();if(id=="sales")sales();if(id=="history")history();if(id=="expenses")expenses();if(id=="reports")reports();if(id=="analytics")analytics()};
+window.login=async()=>{try{await signInWithEmailAndPassword(auth,em.value,pw.value)}catch(x){alert(x.code)}};
+window.create=async()=>{if(cb.disabled)return;cb.disabled=true;try{let r=await createUserWithEmailAndPassword(auth,ce.value,cp.value);uid=r.user.uid;profile={business:bn.value,owner:on.value,phone:ph.value,plan:"Trial",trial:new Date().toISOString()};localStorage.setItem(k("profile"),JSON.stringify(profile));["products","customers","sales","expenses","feedback"].forEach(x=>save(x,[]));alert("Account created successfully")}catch(x){alert(x.code)}cb.disabled=false};
+window.reset=async()=>{try{await sendPasswordResetEmail(auth,re.value);alert("Reset link sent")}catch(x){alert(x.code)}};
+window.logout=()=>signOut(auth);
+function dash(){wel.textContent="Welcome, "+(profile.owner||"Business Owner");pl.textContent="Plan: "+(profile.plan||"Trial");if(profile.plan=="Trial"){let d=3-Math.floor((Date.now()-new Date(profile.trial||Date.now()))/86400000);trial.textContent=d>0?"Trial: "+d+" day(s) remaining":"Trial expired"}}
+function products(){plist.innerHTML=p.map((x,i)=>`<div class=item><b>${x.n}</b> — ₦${x.p} — Qty ${x.q}<button onclick="p.splice(${i},1);save('products',p);products()">Delete</button></div>`).join("")}
+window.addP=()=>{if(p.length>=L()[0])return alert("Product limit reached");if(!pn.value||!pp.value)return alert("Fill product details");p.push({n:pn.value,p:+pp.value,q:+pq.value||0});save("products",p);pn.value=pp.value=pq.value="";products()};
+function customers(){clist.innerHTML=c.map(x=>`<div class=item><b>${x.n}</b><br>${x.ph||""}</div>`).join("")}
+window.addC=()=>{if(c.length>=L()[1])return alert("Customer limit reached");if(!cn.value)return alert("Enter customer");c.push({n:cn.value,ph:cpn.value});save("customers",c);cn.value=cpn.value="";customers()};
+function sales(){sp.innerHTML=p.map((x,i)=>`<option value="${i}">${x.n} — ₦${x.p}</option>`).join("")}
+window.addS=()=>{if(s.length>=L()[2])return alert("Sales limit reached");let x=p[+sp.value],q=+sq.value;if(!x||!q||q>x.q)return alert("Check product and quantity");x.q-=q;s.push({n:x.n,q,t:x.p*q,c:sc.value,d:new Date().toISOString()});save("products",p);save("sales",s);sq.value=sc.value="";alert("Sale recorded")};
+function history(){let days=L()[3],now=Date.now();hlist.innerHTML=s.slice().reverse().filter(x=>days==Infinity||(now-new Date(x.d))/86400000<=days).map(x=>`<div class=item>${x.n} × ${x.q}<br>₦${x.t}<br>${new Date(x.d).toLocaleString()}</div>`).join("")||"No sales history"}
+window.addE=()=>{if(!en.value||!ea.value)return alert("Fill expense");e.push({n:en.value,a:+ea.value,d:new Date().toISOString()});save("expenses",e);en.value=ea.value="";expenses()};
+function expenses(){elist.innerHTML=e.map(x=>`<div class=item>${x.n} — ₦${x.a}</div>`).join("")}
+function reports(){let r=s.reduce((a,x)=>a+x.t,0),z=e.reduce((a,x)=>a+x.a,0);rv.textContent="₦"+r.toLocaleString();scount.textContent=s.length;ex.textContent="₦"+z.toLocaleString();if(profile.plan=="Trial"||profile.plan=="Ordinary"){pr.textContent="Locked";lock.innerHTML="<div class=lock>Profit tracking is available on Premium and Standard.</div>"}else{pr.textContent="₦"+(r-z).toLocaleString();lock.innerHTML=""}}
+function analytics(){an.innerHTML=`Products: ${p.length}<br>Customers: ${c.length}<br>Sales: ${s.length}<br>Revenue: ₦${s.reduce((a,x)=>a+x.t,0).toLocaleString()}`}
+window.trialStart=()=>{profile.plan="Trial";profile.trial=new Date().toISOString();localStorage.setItem(k("profile"),JSON.stringify(profile));dash();alert("3-day trial started")};
+window.plan=x=>{if(x=="o")location.href="https://flutterwave.com/pay/efrz0lr36smo";else alert(x=="p"?"Premium payment link coming next":"Standard payment link coming next")};
+window.sendFB=()=>{if(!fb.value)return;f.push({x:fb.value,d:new Date().toISOString()});save("feedback",f);fb.value="";alert("Feedback sent")};
+window.fbType=x=>fb.value=x;
+window.backup=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({profile,p,c,s,e,f})],{type:"application/json"}));a.download="finora-backup.json";a.click()};
+onAuthStateChanged(auth,u=>{if(u){load(u);go("dash")}else go("login")});
+</script>
+</body>
+</html>
