@@ -74,7 +74,11 @@ function expenses(){elist.innerHTML=e.map(x=>`<div class=item>${x.n} — ₦${x.
 function reports(){let r=s.reduce((a,x)=>a+x.t,0),z=e.reduce((a,x)=>a+x.a,0);rv.textContent="₦"+r.toLocaleString();scount.textContent=s.length;ex.textContent="₦"+z.toLocaleString();if(profile.plan=="Trial"||profile.plan=="Ordinary"){pr.textContent="Locked";lock.innerHTML="<div class=lock>Profit tracking is available on Premium and Standard.</div>"}else{pr.textContent="₦"+(r-z).toLocaleString();lock.innerHTML=""}}
 function analytics(){an.innerHTML=`Products: ${p.length}<br>Customers: ${c.length}<br>Sales: ${s.length}<br>Revenue: ₦${s.reduce((a,x)=>a+x.t,0).toLocaleString()}`}
 window.trialStart=()=>{profile.plan="Trial";profile.trial=new Date().toISOString();localStorage.setItem(k("profile"),JSON.stringify(profile));dash();alert("3-day trial started")};
-window.plan=x=>{if(x=="o")location.href="https://flutterwave.com/pay/efrz0lr36smo";else alert(x=="p"?"Premium payment link coming next":"Standard payment link coming next")};
+window.plan=x=>{
+if(x=="o")location.href="https://flutterwave.com/pay/efrz0lr36smo";
+else if(x=="p")location.href="https://flutterwave.com/pay/emho3eswzs3e";
+else if(x=="s")location.href="https://flutterwave.com/pay/7sarxc7ij8oy";
+};
 window.sendFB=()=>{if(!fb.value)return;f.push({x:fb.value,d:new Date().toISOString()});save("feedback",f);fb.value="";alert("Feedback sent")};
 window.fbType=x=>fb.value=x;
 window.backup=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({profile,p,c,s,e,f})],{type:"application/json"}));a.download="finora-backup.json";a.click()};
